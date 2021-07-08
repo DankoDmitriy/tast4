@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Information Handling tests" verbose="1">
+    <test name="Test Lexeme Parsers">
+        <classes>
+            <class name="com.danko.information_handling.parser.ParagraphParserTest"/>
+            <class name="com.danko.information_handling.parser.SentenceParserTest"/>
+            <class name="com.danko.information_handling.parser.LexemeParserTest"/>
+            <class name="com.danko.information_handling.parser.SymbolParserTest"/>
+        </classes>
+    </test>
+
+    <test name="Test service">
+        <classes>
+            <class name="com.danko.information_handling.service.TextComponentServiceImplTest"/>
+        </classes>
+    </test>
+
+</suite>
