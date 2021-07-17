@@ -1,7 +1,7 @@
 package com.danko.information_handling.parser.impl;
 
 import com.danko.information_handling.entity.ComponentType;
-import com.danko.information_handling.entity.TextComponentInformation;
+import com.danko.information_handling.entity.InformationComponent;
 import com.danko.information_handling.entity.impl.TextComponent;
 import com.danko.information_handling.exception.TextException;
 import com.danko.information_handling.parser.DataParser;
@@ -20,16 +20,16 @@ public class ParagraphParser implements DataParser {
     private DataParser parser = new SentenceParser();
 
     @Override
-    public TextComponentInformation parse(String data) throws TextException {
+    public InformationComponent parse(String data) throws TextException {
         if (data == null || data.isBlank()) {
             throw new TextException("Input data is not correct...");
         }
         String[] paragraphs = data.split(PARAGRAPH_REGEX);
         List<String> paragraphsList = new ArrayList<>(Arrays.asList(paragraphs));
         paragraphsList.remove(EMPTY_PARAGRAPH_POSITION);
-        TextComponentInformation text = new TextComponent(ComponentType.TEXT);
+        InformationComponent text = new TextComponent(ComponentType.TEXT);
         for (String paragraph : paragraphsList) {
-            TextComponentInformation tmpParagraph = parser.parse(paragraph);
+            InformationComponent tmpParagraph = parser.parse(paragraph);
             text.addTextComponent(tmpParagraph);
         }
         logger.log(Level.INFO, "Paragraphs parsing is finished...");

@@ -1,6 +1,6 @@
 package com.danko.information_handling.main;
 
-import com.danko.information_handling.entity.TextComponentInformation;
+import com.danko.information_handling.entity.InformationComponent;
 import com.danko.information_handling.parser.DataParser;
 import com.danko.information_handling.parser.impl.ParagraphParser;
 import com.danko.information_handling.reader.TextReader;
@@ -20,14 +20,15 @@ public class Main {
         String text = reader.readText(pathToFile);
 
         DataParser parser = new ParagraphParser();
-        TextComponentInformation textComponent = parser.parse(text);
-        TextComponentInformation sentences = textComponent.getChildren().get(0).getChildren().get(0);
+        InformationComponent textComponent = parser.parse(text);
+
+        InformationComponent sentences = textComponent.getChildren().get(0).getChildren().get(0);
 
         TextComponentService service = new TextComponentServiceImpl();
         service.countVowels(sentences);
         service.countConsonants(sentences);
 
-        List<TextComponentInformation> list = service.findSentencesOfMaxWord(textComponent);
+        List<InformationComponent> list = service.findSentencesOfMaxWord(textComponent);
 
         service.removeSentencesWithMinWords(textComponent, 1);
 

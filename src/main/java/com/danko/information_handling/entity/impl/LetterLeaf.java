@@ -1,14 +1,14 @@
 package com.danko.information_handling.entity.impl;
 
 import com.danko.information_handling.entity.ComponentType;
-import com.danko.information_handling.entity.TextComponentInformation;
+import com.danko.information_handling.entity.InformationComponent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class LetterLeaf implements TextComponentInformation {
+public class LetterLeaf implements InformationComponent {
     private static Logger logger = LogManager.getLogger();
     private ComponentType type;
     private char symbol;
@@ -19,19 +19,19 @@ public class LetterLeaf implements TextComponentInformation {
     }
 
     @Override
-    public List<TextComponentInformation> getChildren() {
+    public List<InformationComponent> getChildren() {
         logger.log(Level.ERROR, "Unsupported operation get children on leaf");
         throw new UnsupportedOperationException("Unsupported operation get children on leaf");
     }
 
     @Override
-    public void addTextComponent(TextComponentInformation component) {
+    public void addTextComponent(InformationComponent component) {
         logger.log(Level.ERROR, "Unsupported operation add on leaf");
         throw new UnsupportedOperationException("Unsupported operation add on leaf");
     }
 
     @Override
-    public void removeTextComponent(TextComponentInformation component) {
+    public void removeTextComponent(InformationComponent component) {
         logger.log(Level.ERROR, "Unsupported operation remove on leaf");
         throw new UnsupportedOperationException("Unsupported operation remove on leaf");
     }

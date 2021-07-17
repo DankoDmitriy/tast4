@@ -1,6 +1,6 @@
 package com.danko.information_handling.service;
 
-import com.danko.information_handling.entity.TextComponentInformation;
+import com.danko.information_handling.entity.InformationComponent;
 import com.danko.information_handling.exception.TextException;
 import com.danko.information_handling.parser.DataParser;
 import com.danko.information_handling.parser.impl.LexemeParser;
@@ -36,7 +36,7 @@ public class TextComponentServiceImplTest {
     }
 
     @Test(dataProvider = "data_text")
-    public void sortParagraphsBySentencesTet(TextComponentInformation extend, TextComponentInformation component) throws TextException {
+    public void sortParagraphsBySentencesTet(InformationComponent extend, InformationComponent component) throws TextException {
         service.sortParagraphsBySentences(component);
         assertEquals(extend, component);
     }
@@ -50,7 +50,7 @@ public class TextComponentServiceImplTest {
     }
 
     @Test(dataProvider = "equal_words")
-    public void countEqualWordsTest(Integer extend, TextComponentInformation component, String word) throws TextException {
+    public void countEqualWordsTest(Integer extend, InformationComponent component, String word) throws TextException {
         Integer result = service.countEqualWords(component, word);
         assertEquals(extend, result);
     }
@@ -64,7 +64,7 @@ public class TextComponentServiceImplTest {
     }
 
     @Test(dataProvider = "vowels")
-    public void countVowelsTest(long extend, TextComponentInformation component) throws TextException {
+    public void countVowelsTest(long extend, InformationComponent component) throws TextException {
         long result = service.countVowels(component);
         assertEquals(extend, result);
     }
@@ -78,7 +78,7 @@ public class TextComponentServiceImplTest {
     }
 
     @Test(dataProvider = "consonants")
-    public void countConsonantsTest(long extend, TextComponentInformation component) throws TextException {
+    public void countConsonantsTest(long extend, InformationComponent component) throws TextException {
         long result = service.countConsonants(component);
         assertEquals(extend, result);
     }
@@ -87,17 +87,17 @@ public class TextComponentServiceImplTest {
     public Object[][] findSentencesData() throws TextException {
         String str = "Cat is big.";
         String text = "    Cat is big. Cat is big. I am.";
-        TextComponentInformation sentence1 = sentenceParser.parse(str);
-        TextComponentInformation sentence2 = sentenceParser.parse(str);
-        List<TextComponentInformation> sentences = List.of(sentence1, sentence2);
+        InformationComponent sentence1 = sentenceParser.parse(str);
+        InformationComponent sentence2 = sentenceParser.parse(str);
+        List<InformationComponent> sentences = List.of(sentence1, sentence2);
         return new Object[][]{
                 {sentences, textParser.parse(text)}
         };
     }
 
     @Test(dataProvider = "find_sentences")
-    public void findSentencesOfMaxWordTest(List<TextComponentInformation> extend, TextComponentInformation component) throws TextException {
-        List<TextComponentInformation> result = service.findSentencesOfMaxWord(component);
+    public void findSentencesOfMaxWordTest(List<InformationComponent> extend, InformationComponent component) throws TextException {
+        List<InformationComponent> result = service.findSentencesOfMaxWord(component);
         assertEquals(extend, result);
     }
 
@@ -111,7 +111,7 @@ public class TextComponentServiceImplTest {
     }
 
     @Test(dataProvider = "remove_sentences")
-    public void removeSentencesWithMinWordsTest(TextComponentInformation extend, TextComponentInformation component, int minWords) throws TextException {
+    public void removeSentencesWithMinWordsTest(InformationComponent extend, InformationComponent component, int minWords) throws TextException {
         service.removeSentencesWithMinWords(component, minWords);
         assertEquals(extend, component);
     }

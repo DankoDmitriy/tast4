@@ -3,10 +3,10 @@ package com.danko.information_handling.entity;
 public enum ComponentType {
     PARAGRAPH(" "),
     SENTENCE(" "),
-    WORD(" "),
+    WORD(""),
     SYMBOL_LEAF(""),
     PUNCTUATION_LEAF(""),
-    TEXT("");
+    TEXT("\r\n");
 
     private final String delimiter;
 

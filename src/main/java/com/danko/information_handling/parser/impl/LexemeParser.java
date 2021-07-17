@@ -1,7 +1,7 @@
 package com.danko.information_handling.parser.impl;
 
 import com.danko.information_handling.entity.ComponentType;
-import com.danko.information_handling.entity.TextComponentInformation;
+import com.danko.information_handling.entity.InformationComponent;
 import com.danko.information_handling.entity.impl.TextComponent;
 import com.danko.information_handling.exception.TextException;
 import com.danko.information_handling.parser.DataParser;
@@ -18,18 +18,18 @@ public class LexemeParser implements DataParser {
     private DataParser parser = new SymbolParser();
 
     @Override
-    public TextComponentInformation parse(String data) throws TextException {
+    public InformationComponent parse(String data) throws TextException {
         if (data == null || data.isBlank()) {
             throw new TextException("Input data is not correct...");
         }
         Pattern pattern = Pattern.compile(LEXEME_REGEX);
         Matcher matcher = pattern.matcher(data);
-        TextComponentInformation sentence = new TextComponent(ComponentType.SENTENCE);
+        InformationComponent sentence = new TextComponent(ComponentType.SENTENCE);
         String lexeme;
         while (matcher.find()) {
             lexeme = matcher.group(1);
             if (lexeme.length() > 0) {
-                TextComponentInformation word = parser.parse(lexeme);
+                InformationComponent word = parser.parse(lexeme);
                 sentence.addTextComponent(word);
             }
         }

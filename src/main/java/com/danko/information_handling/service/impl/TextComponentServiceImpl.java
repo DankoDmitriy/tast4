@@ -1,7 +1,7 @@
 package com.danko.information_handling.service.impl;
 
 import com.danko.information_handling.comparator.SentencesCountComparator;
-import com.danko.information_handling.entity.TextComponentInformation;
+import com.danko.information_handling.entity.InformationComponent;
 import com.danko.information_handling.exception.TextException;
 import com.danko.information_handling.service.TextComponentService;
 import org.apache.logging.log4j.Level;
@@ -20,22 +20,22 @@ public class TextComponentServiceImpl implements TextComponentService {
     private static final String PUNCTUATION = "\\p{Punct}";
 
     @Override
-    public int countEqualWords(TextComponentInformation component, String searchWord) throws TextException {
+    public int countEqualWords(InformationComponent component, String searchWord) throws TextException {
         if (component.getType() != TEXT) {
             logger.log(Level.ERROR, "Input data type is not correct" + component.getType());
             throw new TextException("Input data type is not correct" + component.getType());
         }
         int count = 0;
-        List<TextComponentInformation> paragraphs = component.getChildren();
-        for (TextComponentInformation paragraph : paragraphs) {
-            List<TextComponentInformation> sentences = paragraph.getChildren();
-            for (TextComponentInformation sentence : sentences) {
-                List<TextComponentInformation> words = sentence.getChildren();
-                for (TextComponentInformation word : words) {
-                    List<TextComponentInformation> leafs = word.getChildren();
+        List<InformationComponent> paragraphs = component.getChildren();
+        for (InformationComponent paragraph : paragraphs) {
+            List<InformationComponent> sentences = paragraph.getChildren();
+            for (InformationComponent sentence : sentences) {
+                List<InformationComponent> words = sentence.getChildren();
+                for (InformationComponent word : words) {
+                    List<InformationComponent> leafs = word.getChildren();
                     StringBuilder sb = new StringBuilder();
                     String collectedWord = "";
-                    for (TextComponentInformation leaf : leafs) {
+                    for (InformationComponent leaf : leafs) {
                         if (leaf.getType() == SYMBOL_LEAF) {
                             sb.append(leaf.toString());
                         }
@@ -51,25 +51,25 @@ public class TextComponentServiceImpl implements TextComponentService {
         return count;
     }
 
-    public void sortParagraphsBySentences(TextComponentInformation component) throws TextException {
+    public void sortParagraphsBySentences(InformationComponent component) throws TextException {
         if (component.getType() != TEXT) {
             logger.log(Level.ERROR, "Input data type is not correct" + component.getType());
             throw new TextException("Input data type is not correct" + component.getType());
         }
-        List<TextComponentInformation> paragraphs = component.getChildren();
+        List<InformationComponent> paragraphs = component.getChildren();
         paragraphs.sort(new SentencesCountComparator());
     }
 
     @Override
-    public void removeSentencesWithMinWords(TextComponentInformation component, int minWords) throws TextException {
+    public void removeSentencesWithMinWords(InformationComponent component, int minWords) throws TextException {
         if (component.getType() != TEXT) {
             logger.log(Level.ERROR, "Input data type is not correct" + component.getType());
             throw new TextException("Input data type is not correct" + component.getType());
         }
         int count = 0;
-        List<TextComponentInformation> paragraphs = component.getChildren();
-        for (TextComponentInformation paragraph : paragraphs) {
-            List<TextComponentInformation> sentences = paragraph.getChildren();
+        List<InformationComponent> paragraphs = component.getChildren();
+        for (InformationComponent paragraph : paragraphs) {
+            List<InformationComponent> sentences = paragraph.getChildren();
             int tmpStartSize = sentences.size();
             sentences.removeIf(s -> s.getChildren().size() < minWords);
             count += tmpStartSize - sentences.size();
@@ -78,7 +78,7 @@ public class TextComponentServiceImpl implements TextComponentService {
     }
 
     @Override
-    public long countVowels(TextComponentInformation component) throws TextException {
+    public long countVowels(InformationComponent component) throws TextException {
         if (component.getType() != SENTENCE) {
             logger.log(Level.ERROR, "Input data type is not correct" + component.getType());
             throw new TextException("Input data type is not correct" + component.getType());
@@ -89,7 +89,7 @@ public class TextComponentServiceImpl implements TextComponentService {
     }
 
     @Override
-    public long countConsonants(TextComponentInformation component) throws TextException {
+    public long countConsonants(InformationComponent component) throws TextException {
         if (component.getType() != SENTENCE) {
             logger.log(Level.ERROR, "Input data type is not correct" + component.getType());
             throw new TextException("Input data type is not correct" + component.getType());
@@ -99,7 +99,7 @@ public class TextComponentServiceImpl implements TextComponentService {
         return i;
     }
 
-    private long countLetters(TextComponentInformation component, String reg) {
+    private long countLetters(InformationComponent component, String reg) {
         long i = 0;
         i = component.getChildren().stream()
                 .flatMap(w -> w.getChildren().stream())
@@ -109,7 +109,7 @@ public class TextComponentServiceImpl implements TextComponentService {
     }
 
     @Override
-    public List<TextComponentInformation> findSentencesOfMaxWord(TextComponentInformation component) throws TextException {
+    public List<InformationComponent> findSentencesOfMaxWord(InformationComponent component) throws TextException {
         if (component.getType() != TEXT) {
             logger.log(Level.ERROR, "Input data type is not correct" + component.getType());
             throw new TextException("Input data type is not correct" + component.getType());
@@ -117,9 +117,9 @@ public class TextComponentServiceImpl implements TextComponentService {
         int maxWordSize = 0;
         maxWordSize = findMaxWordSizeInText(component);
         logger.log(Level.INFO, "Has been found maxWordSize in text. result = " + maxWordSize);
-        List<TextComponentInformation> list = new ArrayList<>();
-        for (TextComponentInformation paragraph : component.getChildren()) {
-            for (TextComponentInformation sentence : paragraph.getChildren()) {
+        List<InformationComponent> list = new ArrayList<>();
+        for (InformationComponent paragraph : component.getChildren()) {
+            for (InformationComponent sentence : paragraph.getChildren()) {
                 int tmpMaxWordSize = findMaxWordSizeInSentence(sentence);
                 if (tmpMaxWordSize == maxWordSize) {
                     list.add(sentence);
@@ -130,10 +130,10 @@ public class TextComponentServiceImpl implements TextComponentService {
         return list;
     }
 
-    private int findMaxWordSizeInText(TextComponentInformation component) {
+    private int findMaxWordSizeInText(InformationComponent component) {
         int maxWordSize = 0;
-        for (TextComponentInformation paragraph : component.getChildren()) {
-            for (TextComponentInformation sentence : paragraph.getChildren()) {
+        for (InformationComponent paragraph : component.getChildren()) {
+            for (InformationComponent sentence : paragraph.getChildren()) {
                 int tmp = findMaxWordSizeInSentence(sentence);
                 if (maxWordSize < tmp) {
                     maxWordSize = tmp;
@@ -143,15 +143,11 @@ public class TextComponentServiceImpl implements TextComponentService {
         return maxWordSize;
     }
 
-    private int findMaxWordSizeInSentence(TextComponentInformation component) {
+    private int findMaxWordSizeInSentence(InformationComponent component) {
         int maxWordSize = 0;
-        for (TextComponentInformation word : component.getChildren()) {
-//            todo: first release
-//            if (maxWordSize < word.getChildren().size()) {
-//                maxWordSize = word.getChildren().size();
-//            }
+        for (InformationComponent word : component.getChildren()) {
             int tmp = 0;
-            for (TextComponentInformation leaf : word.getChildren()) {
+            for (InformationComponent leaf : word.getChildren()) {
                 if (leaf.getType() != PUNCTUATION_LEAF) {
                     tmp++;
                 }

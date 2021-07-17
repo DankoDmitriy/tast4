@@ -2,7 +2,7 @@ package com.danko.information_handling.parser;
 
 import com.danko.information_handling.creater.CreaterLeaf;
 import com.danko.information_handling.entity.ComponentType;
-import com.danko.information_handling.entity.TextComponentInformation;
+import com.danko.information_handling.entity.InformationComponent;
 import com.danko.information_handling.entity.impl.TextComponent;
 import com.danko.information_handling.exception.TextException;
 import com.danko.information_handling.parser.impl.SymbolParser;
@@ -13,7 +13,7 @@ import static org.testng.Assert.assertEquals;
 
 public class SymbolParserTest {
     private DataParser parser;
-    private TextComponentInformation word;
+    private InformationComponent word;
     private String testLine = "a";
 
     @BeforeClass
@@ -25,7 +25,7 @@ public class SymbolParserTest {
 
     @Test
     public void symbolParserPositiveTest() throws TextException {
-        TextComponentInformation result = parser.parse(testLine);
+        InformationComponent result = parser.parse(testLine);
         assertEquals(result, word);
     }
 }
